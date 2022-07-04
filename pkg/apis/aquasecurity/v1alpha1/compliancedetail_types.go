@@ -9,6 +9,12 @@ const (
 )
 
 //+kubebuilder:object:root=true
+//+kubebuilder:printcolumn:name="Scanner",type=string,JSONPath=`.report.scanner.name`
+//+kubebuilder:printcolumn:name="Age",type=date,JSONPath=`.metadata.creationTimestamp`
+//+kubebuilder:printcolumn:name="Critical",type=integer,JSONPath=`.report.summary.criticalCount`,priority=1
+//+kubebuilder:printcolumn:name="High",type=integer,JSONPath=`.report.summary.highCount`,priority=1
+//+kubebuilder:printcolumn:name="Medium",type=integer,JSONPath=`.report.summary.mediumCount`,priority=1
+//+kubebuilder:printcolumn:name="Low",type=integer,JSONPath=`.report.summary.lowCount`,priority=1
 
 // ClusterComplianceDetailReport is a specification for the ClusterComplianceDetailReport resource.
 type ClusterComplianceDetailReport struct {
@@ -27,6 +33,8 @@ type ClusterComplianceDetailReportList struct {
 }
 
 type ClusterComplianceDetailReportData struct {
+	// +kubebuilder:validation:Type=string
+	// +kubebuilder:validation:Format=date-time
 	UpdateTimestamp metav1.Time              `json:"updateTimestamp"`
 	Type            Compliance               `json:"type"`
 	Summary         ClusterComplianceSummary `json:"summary"`
@@ -38,6 +46,7 @@ type ControlCheckDetails struct {
 	ID                 string               `json:"id"`
 	Name               string               `json:"name"`
 	Description        string               `json:"description,omitempty"`
+	//+kubebuilder:validation:Enum={CRITICAL,HIGH,MEDIUM,LOW}
 	Severity           Severity             `json:"severity"`
 	ScannerCheckResult []ScannerCheckResult `json:"checkResults"`
 }

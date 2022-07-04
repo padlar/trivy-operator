@@ -14,15 +14,19 @@ const (
 // ExposedSecretSummary is a summary of ExposedSecret counts grouped by Severity.
 type ExposedSecretSummary struct {
 	// CriticalCount is the number of exposed secrets with Critical Severity.
+	//+kubebuilder:validation:Minimum=0
 	CriticalCount int `json:"criticalCount"`
 
 	// HighCount is the number of exposed secrets with High Severity.
+	//+kubebuilder:validation:Minimum=0
 	HighCount int `json:"highCount"`
 
 	// MediumCount is the number of exposed secrets with Medium Severity.
+	//+kubebuilder:validation:Minimum=0
 	MediumCount int `json:"mediumCount"`
 
 	// LowCount is the number of exposed secrets with Low Severity.
+	//+kubebuilder:validation:Minimum=0
 	LowCount int `json:"lowCount"`
 }
 
@@ -35,12 +39,21 @@ type ExposedSecret struct {
 	RuleID string `json:"ruleID"`
 
 	Title    string   `json:"title"`
-	Category string   `json:"category"`
+	Category string   `json:"category"`	
+	//+kubebuilder:validation:Enum={CRITICAL,HIGH,MEDIUM,LOW}
 	Severity Severity `json:"severity"`
 	Match    string   `json:"match"`
 }
 
 //+kubebuilder:object:root=true
+//+kubebuilder:printcolumn:name="Repository",type=string,JSONPath=`.report.artifact.repository`
+//+kubebuilder:printcolumn:name="Tag",type=string,JSONPath=`.report.artifact.tag`
+//+kubebuilder:printcolumn:name="Scanner",type=string,JSONPath=`.report.scanner.name`
+//+kubebuilder:printcolumn:name="Age",type=date,JSONPath=`.metadata.creationTimestamp`
+//+kubebuilder:printcolumn:name="Critical",type=integer,JSONPath=`.report.summary.criticalCount`,priority=1
+//+kubebuilder:printcolumn:name="High",type=integer,JSONPath=`.report.summary.highCount`,priority=1
+//+kubebuilder:printcolumn:name="Medium",type=integer,JSONPath=`.report.summary.mediumCount`,priority=1
+//+kubebuilder:printcolumn:name="Low",type=integer,JSONPath=`.report.summary.lowCount`,priority=1
 
 // ExposedSecretReport is a specification for the ExposedSecretReport resource.
 type ExposedSecretReport struct {
@@ -57,6 +70,8 @@ type ExposedSecretReport struct {
 // @see https://github.com/goharbor/pluggable-scanner-spec/blob/master/api/spec/scanner-adapter-openapi-v1.0.yaml
 type ExposedSecretReportData struct {
 	// UpdateTimestamp is a timestamp representing the server time in UTC when this report was updated.
+	// +kubebuilder:validation:Type=string
+	// +kubebuilder:validation:Format=date-time
 	UpdateTimestamp metav1.Time `json:"updateTimestamp"`
 
 	// Scanner is the scanner that generated this report.
