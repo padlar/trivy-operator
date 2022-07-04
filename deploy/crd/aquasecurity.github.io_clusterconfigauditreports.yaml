@@ -106,11 +106,6 @@ spec:
                 type: object
               summary:
                 description: ConfigAuditSummary counts failed checks by severity.
-                enum:
-                - SeverityCritical
-                - SeverityHigh
-                - SeverityMedium
-                - SeverityLow
                 properties:
                   criticalCount:
                     description: CriticalCount is the number of failed checks with
