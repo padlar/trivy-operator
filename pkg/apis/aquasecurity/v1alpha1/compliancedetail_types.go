@@ -46,7 +46,7 @@ type ControlCheckDetails struct {
 	ID                 string               `json:"id"`
 	Name               string               `json:"name"`
 	Description        string               `json:"description,omitempty"`
-	//+kubebuilder:validation:Enum={SeverityCritical,SeverityHigh,SeverityMedium,SeverityLow}
+	//+kubebuilder:validation:Enum={CRITICAL,HIGH,MEDIUM,LOW}
 	Severity           Severity             `json:"severity"`
 	ScannerCheckResult []ScannerCheckResult `json:"checkResults"`
 }

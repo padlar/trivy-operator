@@ -40,7 +40,7 @@ type ExposedSecret struct {
 
 	Title    string   `json:"title"`
 	Category string   `json:"category"`	
-	//+kubebuilder:validation:Enum={SeverityCritical,SeverityHigh,SeverityMedium,SeverityLow}
+	//+kubebuilder:validation:Enum={CRITICAL,HIGH,MEDIUM,LOW}
 	Severity Severity `json:"severity"`
 	Match    string   `json:"match"`
 }

@@ -52,10 +52,10 @@ type Control struct {
 	Kinds         []string      `json:"kinds"`
 	//+kubebuilder:validation:Required
 	Mapping       Mapping       `json:"mapping"`
-	//+kubebuilder:validation:Enum={SeverityCritical,SeverityHigh,SeverityMedium,SeverityLow,SeverityUnknown}
+	//+kubebuilder:validation:Enum={CRITICAL,HIGH,MEDIUM,LOW,UNKNOWN}
 	//+kubebuilder:validation:Required
 	Severity      Severity      `json:"severity"`
-	//+kubebuilder:validation:Enum={PassStatus,WarnStatus,FailStatus}
+	//+kubebuilder:validation:Enum={PASS,WARN,FAIL}
 	DefaultStatus ControlStatus `json:"defaultStatus,omitempty"`
 }
 
