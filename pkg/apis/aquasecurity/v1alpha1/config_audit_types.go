@@ -30,6 +30,12 @@ type ConfigAuditSummary struct {
 }
 
 //+kubebuilder:object:root=true
+//+kubebuilder:printcolumn:name="Scanner",type=string,JSONPath=`.report.scanner.name`
+//+kubebuilder:printcolumn:name="Age",type=date,JSONPath=`.metadata.creationTimestamp`
+//+kubebuilder:printcolumn:name="Critical",type=integer,JSONPath=`.report.summary.criticalCount`,priority=1
+//+kubebuilder:printcolumn:name="High",type=integer,JSONPath=`.report.summary.highCount`,priority=1
+//+kubebuilder:printcolumn:name="Medium",type=integer,JSONPath=`.report.summary.mediumCount`,priority=1
+//+kubebuilder:printcolumn:name="Low",type=integer,JSONPath=`.report.summary.lowCount`,priority=1
 
 // ConfigAuditReport is a specification for the ConfigAuditReport resource.
 type ConfigAuditReport struct {
@@ -70,8 +76,11 @@ type ClusterConfigAuditReportList struct {
 }
 
 type ConfigAuditReportData struct {
+	// +kubebuilder:validation:Type=string
+	// +kubebuilder:validation:Format=date-time
 	UpdateTimestamp metav1.Time        `json:"updateTimestamp"`
 	Scanner         Scanner            `json:"scanner"`
+	//+kubebuilder:validation:Enum={SeverityCritical,SeverityHigh,SeverityMedium,SeverityLow}
 	Summary         ConfigAuditSummary `json:"summary"`
 
 	// Checks provides results of conducting audit steps.

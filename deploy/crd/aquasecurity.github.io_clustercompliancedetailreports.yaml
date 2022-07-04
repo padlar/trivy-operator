@@ -15,7 +15,30 @@ spec:
     singular: clustercompliancedetailreport
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - jsonPath: .report.scanner.name
+      name: Scanner
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    - jsonPath: .report.summary.criticalCount
+      name: Critical
+      priority: 1
+      type: integer
+    - jsonPath: .report.summary.highCount
+      name: High
+      priority: 1
+      type: integer
+    - jsonPath: .report.summary.mediumCount
+      name: Medium
+      priority: 1
+      type: integer
+    - jsonPath: .report.summary.lowCount
+      name: Low
+      priority: 1
+      type: integer
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: ClusterComplianceDetailReport is a specification for the ClusterComplianceDetailReport
@@ -79,6 +102,11 @@ spec:
                     severity:
                       description: Severity level of a vulnerability or a configuration
                         audit check.
+                      enum:
+                      - SeverityCritical
+                      - SeverityHigh
+                      - SeverityMedium
+                      - SeverityLow
                       type: string
                   required:
                   - checkResults
@@ -128,3 +156,4 @@ spec:
         type: object
     served: true
     storage: true
+    subresources: {}

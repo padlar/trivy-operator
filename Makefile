@@ -139,7 +139,7 @@ generate: controller-gen
 
 .PHONY: manifest
 manifest: controller-gen
-	$(CONTROLLER_GEN) crd paths="./pkg/apis/..." output:crd:artifacts:config=deploy/crd
+	$(CONTROLLER_GEN) crd:allowDangerousTypes=true paths="./pkg/apis/..." output:crd:artifacts:config=deploy/crd
 
 .PHONY: \
 	clean \
