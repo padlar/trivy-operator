@@ -76,12 +76,14 @@ func (r *readWriter) createOrUpdate(ctx context.Context, report v1alpha1.Exposed
 	return err
 }
 
+const jobOwnerKey = ".metadata.controller"
+
 func (r *readWriter) FindByOwner(ctx context.Context, owner kube.ObjectRef) ([]v1alpha1.ExposedSecretReport, error) {
 	var list v1alpha1.ExposedSecretReportList
 
-	labels := client.MatchingLabels(kube.ObjectRefToLabels(owner))
+	labels := client.MatchingLabels(kube.ObjectRefToLabels(owner)) 
 
-	err := r.List(ctx, &list, labels, client.InNamespace(owner.Namespace))
+	err := r.List(ctx, &list, labels, client.InNamespace(owner.Namespace), client.MatchingFields{jobOwnerKey: owner.Name})
 	if err != nil {
 		return nil, err
 	}
